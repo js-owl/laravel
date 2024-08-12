@@ -1,4 +1,6 @@
 <?php
+
+use App\Http\Controllers\Cars;
 use App\Http\Controllers\Posts;
 use Illuminate\Support\Facades\Route;
 
@@ -19,3 +21,6 @@ Route::get('/posts/{id}', [Posts::class, 'show'])->name('posts.show');
 Route::post('/posts', [Posts::class, 'store']);
 Route::get('/posts/{id}/edit', [Posts::class, 'edit']);
 Route::put('/posts/{id}', [Posts::class, 'update'])->name('posts.update');
+
+// Route::resource('cars', Cars::class);
+Route::resource('cars', Cars::class);
