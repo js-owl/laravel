@@ -18,6 +18,13 @@
         </div>
     </header>
     <div class="container">
+        @if (session('alert'))
+            <div class="alert alert-info" role="alert">
+                <div>
+                    {{ session('alert') }}
+                </div>
+            </div>
+        @endif
         <h1>{{ $h1 ?? $title }}</h1>
         {{ $slot }}
     </div>

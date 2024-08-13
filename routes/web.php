@@ -23,4 +23,6 @@ Route::get('/posts/{id}/edit', [Posts::class, 'edit']);
 Route::put('/posts/{id}', [Posts::class, 'update'])->name('posts.update');
 
 // Route::resource('cars', Cars::class);
+Route::get('/cars/trashed', [Cars::class, 'trashed'])->name('cars.trashed');
+Route::put('/cars/{car}/restore', [Cars::class, 'restore'])->name('cars.restore');
 Route::resource('cars', Cars::class);

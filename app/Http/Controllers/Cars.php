@@ -36,11 +36,27 @@ class Cars extends Controller
 
     public function update(UpdateRequest $request, Car $car){
         $car->update($request->validated());
-        return redirect()->route('cars.show', [$car->id]);
+        return redirect()->route('cars.show', [$car->id])->with('alert', trans('alert.cars.edited'));
     }
 
     public function destroy(Car $car){
         $car->delete();
+        return redirect()->route('cars.index')->with('alert', trans('alert.cars.deleted'));
+    }
+
+    public function trashed(){
+        $cars = Car::onlyTrashed()->orderByDesc('created_at')->get();
+        return view('cars.trashed', compact('cars'));
+    }
+
+    public function restore(string $id){
+        // dd($car) - not found - в корзине и модель не может ее найти
+        $car = Car::onlyTrashed()->findOrFail($id);
+        if(Car::where('vin', $car->vin)->exists()){
+            return redirect()->route('cars.trashed')->with('alert', trans('alert.cars.restore-fail-vin', ['vin' => $car->vin])); 
+        }
+        
+        $car->restore();
         return redirect()->route('cars.index');
     }
 }

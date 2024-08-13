@@ -33,6 +33,6 @@ class Store extends FormRequest
     }
 
     protected function vinUniqueRule(){
-        return Rule::unique(Car::class,'vin');
+        return Rule::unique(Car::class,'vin')->whereNull('deleted_at');
     }
 }
