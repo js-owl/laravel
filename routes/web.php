@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Brands;
 use App\Http\Controllers\Cars;
 use App\Http\Controllers\Posts;
 use Illuminate\Support\Facades\Route;
@@ -26,3 +27,5 @@ Route::put('/posts/{id}', [Posts::class, 'update'])->name('posts.update');
 Route::get('/cars/trashed', [Cars::class, 'trashed'])->name('cars.trashed');
 Route::put('/cars/{car}/restore', [Cars::class, 'restore'])->name('cars.restore');
 Route::resource('cars', Cars::class);
+
+Route::resource('brands', Brands::class);
