@@ -5,7 +5,8 @@
     <div class="row">
         @foreach($cars as $car)
         <div class="col m-3">
-            <h3>{{ $car->brand }} {{ $car->model }}</h3>
+            <em>{{ $car->brand->country->title}}</em>
+            <h3>{{ $car->brand->title }} {{ $car->model }}</h3>
             <a href="{{ route('cars.show', [$car->id]) }}">show</a> |
             <a href="{{ route('cars.edit', [$car->id]) }}">edit</a>
         </div>

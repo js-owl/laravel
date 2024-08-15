@@ -15,7 +15,7 @@ class Store extends FormRequest
     public function rules(){
         $transmissions = config('app-cars.transmissions');
         return [
-            'brand' => 'required|min:3|max:5',
+            'brand_id' => 'required|integer|exists:brands,id',
             'model' => 'required|min:3|max:5',
             'transmission' => ['required', Rule::in(array_keys($transmissions))],
             'vin' => ['required','min:4','max:4', $this->vinUniqueRule()],
@@ -25,7 +25,7 @@ class Store extends FormRequest
 
     public function attributes()    {
         return [
-            'brand' => 'Марка',
+            'brand_id' => 'Марка',
             'model' => 'Модель',
             'transmission' => 'Коробка передач',
             'vin' => 'vin номер',

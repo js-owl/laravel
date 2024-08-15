@@ -4,18 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Cars\Store as StoreRequest;
 use App\Http\Requests\Cars\Update as UpdateRequest;
+use App\Models\Brand;
 use App\Models\Car;
 
 class Cars extends Controller
 {
     public function index(){
-        $cars = Car::orderByDesc('created_at')->get();
+        $cars = Car::with('brand')->orderByDesc('created_at')->get();
         return view('cars.index', compact('cars'));
     }
 
     public function create(){
         $transmissions = config('app-cars.transmissions');
-        return view('cars.create', compact('transmissions'));
+        $brands = Brand::orderBy('title')->pluck('title', 'id');
+        return view('cars.create', compact('transmissions', 'brands'));
     }
 
     public function store(StoreRequest $request){
@@ -29,9 +31,9 @@ class Cars extends Controller
     }
 
     public function edit(Car $car){
-        // $car = Car::findOrFail($id);
         $transmissions = config('app-cars.transmissions');
-        return view('cars.edit', compact('car', 'transmissions'));
+        $brands = Brand::orderBy('title')->pluck('title', 'id');
+        return view('cars.edit', compact('car', 'transmissions', 'brands'));
     }
 
     public function update(UpdateRequest $request, Car $car){

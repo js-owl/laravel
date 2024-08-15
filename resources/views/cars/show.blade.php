@@ -1,6 +1,6 @@
 <x-layout.main  title="car: #{{ $car->id }}">
     <a href="{{ route('cars.index') }}">to index</a>
-    <div>brand: {{ $car->brand }}</div>
+    <div>brand: {{ $car->brand->title }}</div>
     <div>model: {{ $car->model }}</div>
     <div>vin: {{ $car->vin }}</div>
     <div>{{ $car->transmission }}</div>

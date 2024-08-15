@@ -10,4 +10,12 @@ class Brand extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    protected function cars(){
+        return $this->hasMany(Car::class);
+    }
+
+    protected function country(){
+        return $this->belongsTo(Country::class);
+    }
 }
