@@ -6,6 +6,8 @@ use App\Http\Requests\Cars\Store as StoreRequest;
 use App\Http\Requests\Cars\Update as UpdateRequest;
 use App\Models\Brand;
 use App\Models\Car;
+use App\Models\Tag;
+use Illuminate\Support\Facades\DB;
 
 class Cars extends Controller
 {
@@ -17,27 +19,36 @@ class Cars extends Controller
     public function create(){
         $transmissions = config('app-cars.transmissions');
         $brands = Brand::orderBy('title')->pluck('title', 'id');
-        return view('cars.create', compact('transmissions', 'brands'));
+        $tags = Tag::orderBy('title')->pluck('title', 'id');
+        return view('cars.create', compact('transmissions', 'brands', 'tags'));
     }
 
     public function store(StoreRequest $request){
-        $car = Car::create($request->validated());
+        $data = collect($request->validated());
+        $car = Car::make($data->except(['tags'])->toArray());
+
+        DB::transaction(function() use ($data, $car){
+            $car->save();
+            $car->tags()->sync($data->get('tags'));
+        });
         return redirect()->route('cars.show', [$car->id]);
     }
 
     public function show(Car $car){
-        // $post = Post::findOrFail($id);
         return view('cars.show', compact('car'));
     }
 
     public function edit(Car $car){
         $transmissions = config('app-cars.transmissions');
         $brands = Brand::orderBy('title')->pluck('title', 'id');
-        return view('cars.edit', compact('car', 'transmissions', 'brands'));
+        $tags = Tag::orderBy('title')->pluck('title', 'id');
+        return view('cars.edit', compact('car', 'transmissions', 'brands', 'tags'));
     }
 
     public function update(UpdateRequest $request, Car $car){
-        $car->update($request->validated());
+        $data = collect($request->validated());
+        $car->update($data->except(['tags'])->toArray());
+        $car->tags()->sync($data->get('tags'));
         return redirect()->route('cars.show', [$car->id])->with('alert', trans('alert.cars.edited'));
     }
 

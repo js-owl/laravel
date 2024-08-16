@@ -19,6 +19,8 @@ class Store extends FormRequest
             'model' => 'required|min:3|max:5',
             'transmission' => ['required', Rule::in(array_keys($transmissions))],
             'vin' => ['required','min:4','max:4', $this->vinUniqueRule()],
+            'tags' => 'array',
+            'tags.*' => 'integer|exists:tags,id',
         ];
     }
     // 'vin' => ['required','min:4','max:4','unique:cars,vin'],
@@ -29,6 +31,7 @@ class Store extends FormRequest
             'model' => 'Модель',
             'transmission' => 'Коробка передач',
             'vin' => 'vin номер',
+            'tags' => 'Теги',
         ];
     }
 
