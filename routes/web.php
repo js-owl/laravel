@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\Sessions;
 use App\Http\Controllers\Brands;
 use App\Http\Controllers\Cars;
 use App\Http\Controllers\Posts;
@@ -15,6 +16,17 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::prefix('/auth')->middleware('guest')->group(function(){
+    Route::controller(Sessions::class)->group(function(){
+        Route::get('/login', 'create')->name('auth.sessions.create');
+        Route::post('/login', 'store')->name('auth.sessions.store');
+    });
+});
+
+Route::middleware('auth', 'verified')->get('/secret', function(){
+    return 'secret page';
+});
 
 Route::get('/posts', [Posts::class, 'index']);
 Route::get('/posts/create', [Posts::class, 'create']);

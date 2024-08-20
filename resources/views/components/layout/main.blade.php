@@ -14,7 +14,16 @@
 <body>
     <header>
         <div class="container border-bottom pb-2">
-            Logo
+            <div class="row">
+                <div class="col"><div class="alert">Logo</div> </div>
+                <div class="col">
+                    @auth
+                        link to office
+                    @else
+                        <a href="{{ route('auth.sessions.create') }}">Login</a>
+                    @endif
+                </div>
+            </div>
         </div>
     </header>
     <div class="container">
