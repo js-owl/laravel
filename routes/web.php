@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\Sessions;
 use App\Http\Controllers\Brands;
 use App\Http\Controllers\Cars;
+use App\Http\Controllers\Public\Cars as PublicCars;
 use App\Http\Controllers\Posts;
 use Illuminate\Support\Facades\Route;
 
@@ -24,20 +25,26 @@ Route::prefix('/auth')->middleware('guest')->group(function(){
     });
 });
 
-Route::middleware('auth', 'verified')->get('/secret', function(){
+Route::middleware('auth')->get('/secret', function(){
     return 'secret page';
 });
 
-Route::get('/posts', [Posts::class, 'index']);
-Route::get('/posts/create', [Posts::class, 'create']);
-Route::get('/posts/{id}', [Posts::class, 'show'])->name('posts.show');
-Route::post('/posts', [Posts::class, 'store']);
-Route::get('/posts/{id}/edit', [Posts::class, 'edit']);
-Route::put('/posts/{id}', [Posts::class, 'update'])->name('posts.update');
+Route::middleware('auth', 'verified')->prefix('/admin')->group(function(){
+    Route::get('/posts', [Posts::class, 'index']);
+    Route::get('/posts/create', [Posts::class, 'create']);
+    Route::get('/posts/{id}', [Posts::class, 'show'])->name('posts.show');
+    Route::post('/posts', [Posts::class, 'store']);
+    Route::get('/posts/{id}/edit', [Posts::class, 'edit']);
+    Route::put('/posts/{id}', [Posts::class, 'update'])->name('posts.update');
 
-// Route::resource('cars', Cars::class);
-Route::get('/cars/trashed', [Cars::class, 'trashed'])->name('cars.trashed');
-Route::put('/cars/{car}/restore', [Cars::class, 'restore'])->name('cars.restore');
-Route::resource('cars', Cars::class);
+    // Route::resource('cars', Cars::class);
+    Route::middleware('can:cars')->group(function(){
+        Route::get('/cars/trashed', [Cars::class, 'trashed'])->name('cars.trashed');
+        Route::put('/cars/{car}/restore', [Cars::class, 'restore'])->name('cars.restore');
+        Route::resource('cars', Cars::class);
+    }); 
 
-Route::resource('brands', Brands::class);
+    Route::resource('brands', Brands::class);
+});
+
+Route::get('/', [PublicCars::class, 'index'])->name('home');

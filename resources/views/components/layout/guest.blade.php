@@ -18,29 +18,17 @@
 			<div class="row">
 				<div class="col"><div class="alert">Logo</div></div>
 				<div class="col">
-					---
+					@auth
+						link to office
+					@else
+						<a href="{{ route('auth.sessions.create') }}">Login</a>
+					@endif
 				</div>
 			</div>
 		</div>
 	</header>
-	<div>
-		<div class="container py-2">
-			
-			<div class="row">
-				<div class="col col-3">
-					menu
-				</div>
-				<div class="col col-9">
-					@if (session('alert'))
-					<div class="alert alert-info" role="alert">
-						{{ session('alert') }}
-					</div>
-					@endif
-					<h1>{{ $h1 ?? $title }}</h1>
-					{{ $slot }}
-				</div>
-			</div>
-		</div>
+	<div class="container py-2">
+		{{ $slot }}
 	</div>
 	<footer>
 		<div class="container border-top pt-2">

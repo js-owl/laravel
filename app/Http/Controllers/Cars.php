@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 class Cars extends Controller
 {
     public function index(){
-        $cars = Car::with('brand')->orderByDesc('created_at')->get();
+        $cars = Car::orderByDesc('created_at')->get();
         return view('cars.index', compact('cars'));
     }
 
