@@ -16,4 +16,6 @@ class Car extends Model
     public function brand(){ return $this->belongsTo(Brand::class); }
 
     public function tags(){ return $this->belongsToMany(Tag::class)->withTimestamps(); }
+    
+    public function comments(){ return $this->morphMany(Comment::class, 'commentable'); }
 }

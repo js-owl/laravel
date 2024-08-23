@@ -11,11 +11,9 @@ class Brand extends Model
 
     protected $guarded = [];
 
-    protected function cars(){
-        return $this->hasMany(Car::class);
-    }
+    protected function cars(){ return $this->hasMany(Car::class); }
 
-    protected function country(){
-        return $this->belongsTo(Country::class);
-    }
+    protected function country(){ return $this->belongsTo(Country::class); }
+
+    public function comments(){ return $this->morphMany(Comment::class, 'commentable'); }
 }

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\Sessions;
 use App\Http\Controllers\Brands;
 use App\Http\Controllers\Cars;
+use App\Http\Controllers\Comments;
 use App\Http\Controllers\Public\Cars as PublicCars;
 use App\Http\Controllers\Posts;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +31,7 @@ Route::middleware('auth')->get('/secret', function(){
 });
 
 Route::middleware('auth', 'verified')->prefix('/admin')->group(function(){
+    Route::get('/logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
     Route::get('/posts', [Posts::class, 'index']);
     Route::get('/posts/create', [Posts::class, 'create']);
     Route::get('/posts/{id}', [Posts::class, 'show'])->name('posts.show');
@@ -48,3 +50,6 @@ Route::middleware('auth', 'verified')->prefix('/admin')->group(function(){
 });
 
 Route::get('/', [PublicCars::class, 'index'])->name('home');
+Route::get('/catalog/{car}', [PublicCars::class, 'show'])->name('catalog.show');
+
+Route::post('/comments', [ Comments::class, 'store' ])->name('comments.store');;
