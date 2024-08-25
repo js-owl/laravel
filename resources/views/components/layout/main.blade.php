@@ -28,7 +28,13 @@
 			
 			<div class="row">
 				<div class="col col-3">
-					menu
+					<div class="list-group">
+						@can('cars')
+						<li class="list-group-item"><a href="{{ route('cars.index') }}">cars</a></li>
+						@endif
+						<li class="list-group-item"><a href="{{ route('brands.index') }}">brands</a></li>
+						<li class="list-group-item"><a href="{{ route('account.index') }}">account</a></li>
+					</div>
 				</div>
 				<div class="col col-9">
 					@if (session('alert'))

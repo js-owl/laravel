@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Account;
 use App\Http\Controllers\Auth\Sessions;
 use App\Http\Controllers\Brands;
 use App\Http\Controllers\Cars;
@@ -47,6 +48,8 @@ Route::middleware('auth', 'verified')->prefix('/admin')->group(function(){
     }); 
 
     Route::resource('brands', Brands::class);
+    Route::get('/account', [ Account::class, 'index' ])->name('account.index');
+    Route::delete('/logout', [ Sessions::class, 'destroy' ])->name('auth.sessions.destroy');
 });
 
 Route::get('/', [PublicCars::class, 'index'])->name('home');
