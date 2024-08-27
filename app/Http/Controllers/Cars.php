@@ -8,10 +8,15 @@ use App\Models\Brand;
 use App\Models\Car;
 use App\Models\Tag;
 use Illuminate\Support\Facades\DB;
+use Throwable;
+use Dadata\DadataClient;
 
 class Cars extends Controller
 {
-    public function index(){
+    public function index(DadataClient $dadata){
+        $res = $dadata->clean('address', 'мск сухонская 11 89');
+        dd($res);
+
         $cars = Car::orderByDesc('created_at')->get();
         return view('cars.index', compact('cars'));
     }
