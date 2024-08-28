@@ -7,15 +7,16 @@ use App\Http\Requests\Cars\Update as UpdateRequest;
 use App\Models\Brand;
 use App\Models\Car;
 use App\Models\Tag;
+use App\Services\AddressParser\ParserInterface;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 use Dadata\DadataClient;
 
 class Cars extends Controller
 {
-    public function index(DadataClient $dadata){
-        $res = $dadata->clean('address', 'мск сухонская 11 89');
-        dd($res);
+    public function index(ParserInterface $dadata){
+        // $res = $dadata->clean('мск сухонская 11 89');
+        // dd($res);
 
         $cars = Car::orderByDesc('created_at')->get();
         return view('cars.index', compact('cars'));
