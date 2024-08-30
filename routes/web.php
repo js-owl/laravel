@@ -33,12 +33,14 @@ Route::middleware('auth')->get('/secret', function(){
 
 Route::middleware('auth', 'verified')->prefix('/admin')->group(function(){
     Route::get('/logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
-    Route::get('/posts', [Posts::class, 'index']);
-    Route::get('/posts/create', [Posts::class, 'create']);
-    Route::get('/posts/{id}', [Posts::class, 'show'])->name('posts.show');
-    Route::post('/posts', [Posts::class, 'store']);
-    Route::get('/posts/{id}/edit', [Posts::class, 'edit']);
-    Route::put('/posts/{id}', [Posts::class, 'update'])->name('posts.update');
+   
+    Route::resource('posts', Posts::class);
+    // Route::get('/posts', [Posts::class, 'index']);
+    // Route::get('/posts/create', [Posts::class, 'create']);
+    // Route::get('/posts/{id}', [Posts::class, 'show'])->name('posts.show');
+    // Route::post('/posts', [Posts::class, 'store']);
+    // Route::get('/posts/{id}/edit', [Posts::class, 'edit']);
+    // Route::put('/posts/{id}', [Posts::class, 'update'])->name('posts.update');
 
     // Route::resource('cars', Cars::class);
     Route::middleware('can:cars')->group(function(){

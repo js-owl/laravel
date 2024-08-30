@@ -9,6 +9,10 @@ use Illuminate\Http\Request;
 
 class Posts extends Controller
 {
+    public function __construct(){
+        $this->authorizeResource(Post::class);
+    }
+
     public function index(){
         $posts = Post::all();
         return view('posts.index', ['posts' => $posts]);
@@ -19,22 +23,21 @@ class Posts extends Controller
     }
 
     public function store(SaveRequest $request){
-        $post = Post::create($request->validated());
+        $post = Post::make($request->validated());
+        $post->user_id = auth()->id(); // id текущего пользователя
+        $post->save();
         return redirect("/posts/{$post->id}");
     }
 
-    public function show(string $id){
-        $post = Post::findOrFail($id);
+    public function show(Post $post){
         return view('posts.show', ['post' => $post]);
     }
 
-    public function edit($id){
-        $post = Post::findOrFail($id);
+    public function edit(Post $post){
         return view('posts.edit', compact('post'));
     }
 
-    public function update(SaveRequest $request, $id){
-        $post = Post::findOrFail($id);
+    public function update(SaveRequest $request, Post $post){
         $post->update($request->validated());
         return redirect()->route('posts.show', [$post->id]);
     }
