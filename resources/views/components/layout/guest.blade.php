@@ -35,6 +35,9 @@
 			Footer
 		</div>
 	</footer>
+	<script>
+		window.appData = {{ Js::from([ 'apiRoot' => '/api' ]) }}
+	</script>
 	@vite(['resources/js/app.js'])
 </body>
 </html>
